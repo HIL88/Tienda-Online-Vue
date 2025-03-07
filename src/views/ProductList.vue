@@ -14,6 +14,7 @@
           <th>Descripcion</th>
           <th>Precio</th>
           <th>Stock</th>
+          <th>Precio IVA</th>
           <th>Acciones</th>
         </tr>
       </thead>
@@ -23,6 +24,7 @@
           <td>{{ product.description }}</td>
           <td>{{ product.price }}</td>
           <td>{{ product.stock }}</td>
+          <td>{{ product.price_with_vat }}</td>
          
           <td>
             <router-link :to="`/product/${product.id}`">

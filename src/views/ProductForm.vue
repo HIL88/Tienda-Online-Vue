@@ -4,21 +4,16 @@
     <form @submit.prevent="saveProduct">
       <label for="name">Nombre:</label>
       <input v-model="product.name" type="text" required />
-
       <label for="description">Descripción:</label>
       <textarea v-model="product.description" required></textarea>
-
       <label for="price">Precio:</label>
       <input v-model.number="product.price" type="number" step="0.01" required />
-
       <label for="stock">Stock:</label>
       <input v-model.number="product.stock" type="number" required />
-
       <button type="submit" class="btn-save">
         {{ isEditing ? "Actualizar Producto" : "Guardar Producto" }}
       </button>
     </form>
-
     <button class="btn-back" @click="$router.push('/products')">Volver al listado</button>
   </div>
 </template>

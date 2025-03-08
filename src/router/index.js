@@ -5,7 +5,7 @@ import ProductForm from '../views/ProductForm.vue';
 import Login from '../views/Login.vue';
 
 const routes = [
-  { path: '/', component: Home },
+  { path: '/', component: Home, meta: { requiresAuth: true } },
   { path: '/products', component: ProductList, meta: { requiresAuth: true } },
   { path: '/product/:id?', component: ProductForm, meta: { requiresAuth: true } },
   { path: '/login', component: Login }

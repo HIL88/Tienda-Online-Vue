@@ -41,7 +41,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: calc(100vh - 110px);
+    height: calc(100vh - 42px);
     background: linear-gradient(to right, #4a90e2, #1459a5); 
   }
   .login-box {

@@ -4,8 +4,6 @@
     <router-link to="/product">
       <button class="btn">Agregar Producto</button>
     </router-link>
-
-    <!-- Verifica si hay productos antes de mostrar la tabla -->
     <div v-if="loading">Cargando...</div>
     <table v-else>
       <thead>
@@ -25,7 +23,6 @@
           <td>{{ product.price }}</td>
           <td>{{ product.stock }}</td>
           <td>{{ product.price_with_vat }}</td>
-         
           <td>
             <router-link :to="`/product/${product.id}`">
               <button class="btn-edit">Editar</button>
@@ -35,7 +32,6 @@
         </tr>
       </tbody>
     </table>
-
     <!-- Paginación -->
     <div class="pagination" v-if="products.last_page > 1">
       <button :disabled="!products.prev_page_url" @click="fetchProducts(products.prev_page_url)">

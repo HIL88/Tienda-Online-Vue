@@ -70,7 +70,7 @@ export default {
             headers: { Authorization: `Bearer ${authToken}` },
           });
         }
-        router.push("/");
+        router.push("/products");
       } catch (error) {
         console.error("Error al guardar el producto:", error);
       }

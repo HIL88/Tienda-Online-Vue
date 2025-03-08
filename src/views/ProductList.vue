@@ -37,11 +37,12 @@
     </table>
 
     <!-- Paginación -->
-    <div v-if="products.meta && products.meta.total > 10">
-      <button v-if="products.meta.current_page > 1" @click="getPage(products.meta.current_page - 1)">
+    <div class="pagination" v-if="products.last_page > 1">
+      <button :disabled="!products.prev_page_url" @click="fetchProducts(products.prev_page_url)">
         Anterior
       </button>
-      <button v-if="products.meta.current_page < products.meta.last_page" @click="getPage(products.meta.current_page + 1)">
+      <span>Página {{ products.current_page }} de {{ products.last_page }}</span>
+      <button :disabled="!products.next_page_url" @click="fetchProducts(products.next_page_url)">
         Siguiente
       </button>
     </div>
@@ -54,28 +55,24 @@ import { ref, onMounted } from 'vue';
 
 export default {
   setup() {
-    const products = ref({});
-    const loading = ref(true); // Variable para controlar el estado de carga
+    const products = ref({
+      data: [],
+      current_page: 1,
+      last_page: 1,
+      prev_page_url: null,
+      next_page_url: null,
+    });
+    const loading = ref(true);
 
     // Cargar productos desde la API
-    const fetchProducts = async () => {
+    const fetchProducts = async (url = 'http://localhost:8000/api/products') => {
       try {
-        const response = await axios.get('http://localhost:8000/api/products'); 
+        const response = await axios.get(url);
         products.value = response.data;
       } catch (error) {
         console.error('Error al obtener los productos', error);
       } finally {
-        loading.value = false; // Desactivar el estado de carga
-      }
-    };
-
-    // Cargar productos de una página específica
-    const getPage = async (page) => {
-      try {
-        const response = await axios.get(`http://localhost:8000/api/products?page=${page}`);
-        products.value = response.data;
-      } catch (error) {
-        console.error('Error al obtener los productos', error);
+        loading.value = false;
       }
     };
 
@@ -84,7 +81,7 @@ export default {
       if (confirm('¿Estás seguro de que deseas eliminar este producto?')) {
         try {
           await axios.delete(`http://localhost:8000/api/products/${id}`);
-          products.value.data = products.value.data.filter(product => product.id !== id);
+          fetchProducts(); // Recargar los productos después de eliminar
         } catch (error) {
           console.error('Error al eliminar el producto', error);
         }
@@ -93,7 +90,7 @@ export default {
 
     onMounted(fetchProducts);
 
-    return { products, loading, getPage, deleteProduct };
+    return { products, loading, fetchProducts, deleteProduct };
   }
 };
 </script>
@@ -140,5 +137,25 @@ th {
   padding: 5px;
   border: none;
   cursor: pointer;
+}
+
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.pagination button {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
 }
 </style>
